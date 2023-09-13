@@ -1,0 +1,935 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Taskita",
+    "description": "Taskita is a web-based application designed to help users organise and manage their tasks efficiently. It aims to provide users with a user-friendly interface for creating, tracking, and collaborating on tasks.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "Get authorization token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "iqbaleff214",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User logged in successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "M. Iqbal Effendi"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "iqbaleff214"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "iqbaleff214@gmail.com"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                        },
+                        "token_expired_at": {
+                          "type": "string",
+                          "example": "2023-09-13T03:10:07.815Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid email or password"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "Register new account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "M. Iqbal Effendi",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "iqbaleff214@gmail.com",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User registered in successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "M. Iqbal Effendi"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "iqbaleff214"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "iqbaleff214@gmail.com"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                        },
+                        "token_expired_at": {
+                          "type": "string",
+                          "example": "2023-09-13T03:10:07.815Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email already registered"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "Reset password for certain email",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "iqbaleff214@gmail.com",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password link has been sent successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email you entered belongs to no one"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Auth"],
+        "description": "Reset password token checker",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "description": "Reset password token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password token is accepted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token_accepted": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password token is rejected"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token_accepted": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "Revoke authorization token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User logged out successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You don't have any active token right now"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account": {
+      "get": {
+        "tags": ["Account Management"],
+        "description": "Get account information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User account fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "M. Iqbal Effendi"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "iqbaleff214"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "iqbaleff214@gmail.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Something wrong happened"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Account Management"],
+        "description": "Update account information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Mahda Nurdiana"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "mahdanurdiana@gmail.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "mahda.nurdiana"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User account updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "M. Iqbal Effendi"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "iqbaleff214"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "iqbaleff214@gmail.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Something wrong happened"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Account Management"],
+        "description": "Delete account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Account deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot delete your account right now"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/change-password": {
+      "post": {
+        "tags": ["Account Management"],
+        "description": "Change current account password",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "current_password": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "new_password": {
+                    "type": "string",
+                    "example": "newadmin"
+                  },
+                  "new_password_confirm": {
+                    "type": "string",
+                    "example": "newadmin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password changed successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your new password is too short"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Something went wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "tags": ["Task"],
+        "description": "Get some tasks",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search task by name or id",
+            "example": "REST Api",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page pointer",
+            "example": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "Size of task on response",
+            "example": 10,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "Find tasks by category id",
+            "example": 2,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sort_by",
+            "description": "Sort tasks: priority, id, due_date",
+            "example": "priority",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Tasks order: asc, desc",
+            "example": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "Filter task by it status: todo, inprogress, complete",
+            "example": "todo",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "object",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Fetched tasks successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "page_count": {
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "page_size": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 995
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "example": 3
+                        },
+                        "tasks": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Task"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "M. Iqbal Effendi"
+          },
+          "username": {
+            "type": "string",
+            "example": "iqbaleff214"
+          },
+          "email": {
+            "type": "string",
+            "example": "iqbaleff214@gmail.com"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "REST API for book resource"
+          },
+          "description": {
+            "type": "string",
+            "example": "REST API for book resource REST API for book resource REST API for book resource"
+          },
+          "due_date": {
+            "type": "string",
+            "example": "2023-09-13T03:10:07.815Z"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Priority: -2 (LOWEST), -1 (LOW), 0 (MEDIUM), 1 (HIGH), 2 (HIGHEST)",
+            "example": 1
+          },
+          "status": {
+            "type": "integer",
+            "description": "Status: 0 (TODO), 1 (IN PROGRESS), 2 (COMPLETED)",
+            "example": 0
+          },
+          "is_synced": {
+            "type": "boolean",
+            "example": true
+          },
+          "project": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Back-End Project"
+              },
+              "created_at": {
+                "type": "string",
+                "example": "2023-09-13T03:10:07.815Z"
+              },
+              "owner": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/User"
+          },
+          "assignee": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-09-13T03:10:07.815Z"
+          }
+        }
+      }
+    }
+  }
+}
